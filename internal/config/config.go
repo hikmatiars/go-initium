@@ -8,8 +8,9 @@ import (
 
 type (
 	Config struct {
-		App   App   `mapstructure:"app"`
-		Redis Redis `mapstructure:"redis"`
+		App      App      `mapstructure:"app"`
+		Redis    Redis    `mapstructure:"redis"`
+		Postgres Postgres `mapstructure:"postgres"`
 	}
 
 	App struct {
