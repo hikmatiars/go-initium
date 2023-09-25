@@ -4,9 +4,12 @@ import (
 	"context"
 	"fmt"
 	"go-initium/internal/config"
+	"gorm.io/gorm/schema"
 	"log"
 
 	"github.com/go-redis/redis/v8"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func New(ctx context.Context, cfg config.Config) {
@@ -19,4 +22,29 @@ func New(ctx context.Context, cfg config.Config) {
 	if _, err := cache.Ping(ctx).Result(); err != nil {
 		log.Fatalf("failed connect to redis: %s", err)
 	}
+}
+
+func SetupPostgres(cfg config.Config) *gorm.DB {
+	dsn := fmt.
+		Sprintf(`
+			host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=Asia/Jakarta`,
+			cfg.Postgres.DbHost,
+			cfg.Postgres.DbPort,
+			cfg.Postgres.DbUser,
+			cfg.Postgres.DbPass,
+			cfg.Postgres.DbName,
+		)
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  dsn,
+		PreferSimpleProtocol: true, // disables implicit prepared statement usage
+	}), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return db
 }
