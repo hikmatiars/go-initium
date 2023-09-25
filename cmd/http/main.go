@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"go-initium/cmd/server"
 	"log"
 	"os"
 	"os/signal"
@@ -23,6 +24,7 @@ func main() {
 	}
 
 	httpServ := http.NewHttp(e, cfg)
+	server.New(ctx, cfg)
 
 	go func() {
 		httpServ.Start()

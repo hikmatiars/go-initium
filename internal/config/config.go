@@ -8,7 +8,8 @@ import (
 
 type (
 	Config struct {
-		App App `json:"app"`
+		App   App   `mapstructure:"app"`
+		Redis Redis `mapstructure:"redis"`
 	}
 
 	App struct {
@@ -26,6 +27,13 @@ type (
 		DbSchema          string `mapstructure:"db_schema"`
 		MaxOpenConnection int    `mapstructure:"maxOpenConnections"`
 		MaxIdleConnection int    `mapstructure:"maxIdleConnections"`
+	}
+
+	Redis struct {
+		Host     string `mapstructure:"host"`
+		Port     string `mapstructure:"port"`
+		Password string `mapstructure:"password"`
+		Db       int    `mapstructure:"db"`
 	}
 )
 
