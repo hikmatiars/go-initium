@@ -31,11 +31,10 @@ func NewHttp(c *echo.Echo, cfg config.Config) RegisterHttp {
 }
 
 func (h *Http) Start() *echo.Echo {
+	h.Route(h.e)
 	if err := h.e.Start(h.addr); err != nil {
 		log.Fatal("service shutting down")
 	}
-
-	h.Route(h.e)
 
 	return h.e
 }
