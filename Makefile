@@ -2,7 +2,7 @@ run-http:
 	go run cmd/http/main.go
 
 swag:
-	swag init -g cmd/api/main.go
+	swag init -g cmd/http/main.go
 
 test:
 	CGO_ENABLED=1 go test -race -short -count=1 ./... -gcflags=all=-l
