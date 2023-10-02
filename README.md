@@ -24,6 +24,7 @@
 
 - Libraries for configuration parsing https://github.com/spf13/viper
 - Swagger doc https://github.com/swaggo/swag
+- Gorm doc https://gorm.io/index.html
 
 ---
 
