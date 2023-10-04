@@ -12,7 +12,11 @@ import (
 	"gorm.io/gorm"
 )
 
-func New(ctx context.Context, cfg config.Config) {
+type Contract struct {
+	DB *gorm.DB
+}
+
+func New(ctx context.Context, cfg config.Config) *Contract {
 	// connect to redis
 	cache := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", cfg.Redis.Host, cfg.Redis.Port),
@@ -22,6 +26,11 @@ func New(ctx context.Context, cfg config.Config) {
 	if _, err := cache.Ping(ctx).Result(); err != nil {
 		log.Fatalf("failed connect to redis: %s", err)
 	}
+
+	//Connect to DB
+	db := SetupPostgres(cfg)
+
+	return &Contract{DB: db}
 }
 
 func SetupPostgres(cfg config.Config) *gorm.DB {
@@ -45,6 +54,8 @@ func SetupPostgres(cfg config.Config) *gorm.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	log.Printf("Successfully connecting DB")
 
 	return db
 }

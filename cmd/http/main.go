@@ -23,8 +23,8 @@ func main() {
 		log.Panic(err)
 	}
 
-	httpServ := http.NewHttp(e, cfg)
-	server.New(ctx, cfg)
+	c := server.New(ctx, cfg)
+	httpServ := http.NewHttp(e, cfg, c)
 
 	go func() {
 		httpServ.Start()
