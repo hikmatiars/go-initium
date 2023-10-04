@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"go-initium/cmd/server"
 	"go-initium/internal/config"
 	"log"
 )
@@ -16,17 +17,19 @@ type (
 	}
 
 	Http struct {
-		e    *echo.Echo
-		addr string
+		e        *echo.Echo
+		addr     string
+		Contract *server.Contract
 	}
 )
 
-func NewHttp(c *echo.Echo, cfg config.Config) RegisterHttp {
+func NewHttp(c *echo.Echo, cfg config.Config, contract *server.Contract) RegisterHttp {
 	addr := fmt.Sprintf(":%d", cfg.App.HTTPPort)
 
 	return &Http{
-		e:    c,
-		addr: addr,
+		e:        c,
+		addr:     addr,
+		Contract: contract,
 	}
 }
 
